@@ -9,6 +9,6 @@ import com.tfa.entite.Employe;
 public interface EmployeRepository extends JpaRepository<Employe, Integer>{
 
 	Employe findByEmail(String email);
-	List<Employe> findByNom(String nom);
 	Employe findByMatricule(String matricule);
+	List<Employe> findByNom(String nom);
 }

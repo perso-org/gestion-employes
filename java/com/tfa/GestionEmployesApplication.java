@@ -14,6 +14,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 @EnableDiscoveryClient
 public class GestionEmployesApplication {
 
+	public static void main(String[] args) {
+		SpringApplication.run(GestionEmployesApplication.class, args);
+	}
+	
 	@Bean
 	public ModelMapper mapper() {
 		return new ModelMapper();
@@ -27,10 +31,6 @@ public class GestionEmployesApplication {
 	@Bean
 	public WebClient webClient() {
 		return WebClient.builder().build(); 
-	}
-	
-	public static void main(String[] args) {
-		SpringApplication.run(GestionEmployesApplication.class, args);
 	}
 
 }
