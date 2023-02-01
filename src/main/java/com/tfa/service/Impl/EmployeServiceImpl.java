@@ -31,19 +31,19 @@ public class EmployeServiceImpl implements EmployeService {
 
 	private final EmployeRepository repo;
 	private final ModelMapper mapper;
-	private final RestTemplate restTemplate;
-	private final WebClient client;
+	// private final RestTemplate restTemplate;
+	// private final WebClient client;
 	private final APIClient apiClient;
-	
+
 	@Override
 	public EmployeDto creationEmploye(EmployeDto dto) {
-		
+
 		log.info("Creation d'un employé...");
 		Employe employe = mapper.map(dto, Employe.class);
-		
+
 		Employe employeSaved = repo.save(employe);
 		log.info("Employé créé avec succès!");
-		
+
 		return mapper.map(employeSaved, EmployeDto.class);
 	}
 
@@ -51,13 +51,13 @@ public class EmployeServiceImpl implements EmployeService {
 	public EmployeDto misajourEmployeParMail(EmployeDto dto, String email) {
 		Objects.requireNonNull(email);
 		Employe employe = repo.findByEmail(email);
-		
-		if(employe == null) {
-			 return null;
+
+		if (employe == null) {
+			return null;
 		}
 		modificationEntite(employe, dto);
 		Employe emp = repo.save(employe);
-		log.info("Employé avec l'email {} mis à jour avec succès!",email);
+		log.info("Employé avec l'email {} mis à jour avec succès!", email);
 		return mapper.map(emp, EmployeDto.class);
 	}
 
@@ -65,33 +65,34 @@ public class EmployeServiceImpl implements EmployeService {
 	public EmployeDto misajourEmployeParMatricule(EmployeDto dto, String matricule) {
 		Objects.requireNonNull(matricule);
 		Employe employe = repo.findByMatricule(matricule);
-		
-		if(employe == null) {
-			 return null;
+
+		if (employe == null) {
+			return null;
 		}
 		modificationEntite(employe, dto);
 		Employe emp = repo.save(employe);
-		log.info("Employé {} mis à jour avec succès!",matricule);
+		log.info("Employé {} mis à jour avec succès!", matricule);
 		return mapper.map(emp, EmployeDto.class);
 	}
 
-	private void modificationEntite(Employe employe,EmployeDto dto) {
+	private void modificationEntite(Employe employe, EmployeDto dto) {
 		employe.setNom(StringUtils.isNotBlank(dto.getNom()) ? dto.getNom() : employe.getNom());
 		employe.setPrenom(StringUtils.isNotBlank(dto.getPrenom()) ? dto.getPrenom() : employe.getPrenom());
 		employe.setEmail(StringUtils.isNotBlank(dto.getEmail()) ? dto.getEmail() : employe.getEmail());
 		employe.setMatricule(StringUtils.isNotBlank(dto.getMatricule()) ? dto.getMatricule() : employe.getMatricule());
-		employe.setDepartementCode(StringUtils.isNotBlank(dto.getDepartementCode()) ? dto.getMatricule() : employe.getDepartementCode());
+		employe.setDepartementCode(
+				StringUtils.isNotBlank(dto.getDepartementCode()) ? dto.getMatricule() : employe.getDepartementCode());
 	}
 
 	@Override
 	public EmployeDto obtenirEmployeParMail(String email) {
 		Objects.requireNonNull(email);
 		Employe employe = repo.findByEmail(email);
-		
-		if(employe == null) {
-			 return null;
+
+		if (employe == null) {
+			return null;
 		}
-	
+
 		return mapper.map(employe, EmployeDto.class);
 	}
 
@@ -120,22 +121,22 @@ public class EmployeServiceImpl implements EmployeService {
 	public List<EmployeDto> obtenirEmployeParNom(String nom) {
 
 		Objects.requireNonNull(nom);
-		
+
 		List<Employe> employes = repo.findByNom(nom);
-		if(CollectionUtils.isEmpty(employes)) {
+		if (CollectionUtils.isEmpty(employes)) {
 			return Collections.emptyList();
 		}
-		
+
 		return employes.stream().map(emp -> mapper.map(emp, EmployeDto.class)).toList();
 	}
 
 	@Override
 	public List<EmployeDto> obtenirEmployes() {
 		List<Employe> employes = repo.findAll();
-		if(CollectionUtils.isEmpty(employes)) {
+		if (CollectionUtils.isEmpty(employes)) {
 			return Collections.emptyList();
 		}
-		
+
 		return employes.stream().map(emp -> mapper.map(emp, EmployeDto.class)).toList();
 	}
 
@@ -143,12 +144,12 @@ public class EmployeServiceImpl implements EmployeService {
 	public boolean supprimerEmployeParMatricule(String matricule) {
 		Objects.requireNonNull(matricule);
 		Employe employe = repo.findByMatricule(matricule);
-		
-		if(employe == null) {
-			 return false;
+
+		if (employe == null) {
+			return false;
 		}
 		repo.delete(employe);
-		log.info("Employé {} supprimé avec succès!",matricule);
+		log.info("Employé {} supprimé avec succès!", matricule);
 		return true;
 	}
 
