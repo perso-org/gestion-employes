@@ -29,4 +29,5 @@ public class Employe {
 	@Column(nullable = false,unique = true)
 	private String email;
 	private String departementCode;
+	private String organisationCode;
 }

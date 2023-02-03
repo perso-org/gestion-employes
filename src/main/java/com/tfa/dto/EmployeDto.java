@@ -19,4 +19,5 @@ public class EmployeDto {
 	private String matricule;
 	private String email;
 	private String departementCode;
+	private String organisationCode;
 }
